@@ -115,7 +115,7 @@ function uploadImage(req, res){
         if(!userUpdate){
           res.status(404).send({message: 'user can not update'})
         }else{
-          res.status(200).send({user: userUpdate})
+          res.status(200).send({image: file_name, user: userUpdate})
         }
       })
     }else{
