@@ -85,6 +85,10 @@ function updateUser(req, res){
   let userId = req.params.id
   let update = req.body
 
+  if (userId != req.user.sub ) {
+    return res.status(500).send({message: 'not same user'})
+  }
+
   User.findByIdAndUpdate(userId, update, (err, userUpdate) =>{
     if(err){
       res.status(500).send({message: 'error to update user'})
