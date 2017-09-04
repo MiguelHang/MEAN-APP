@@ -52,7 +52,7 @@ function getArtists(req, res){
     page = 1
   }
 
-  let itemsPerPage = 3
+  let itemsPerPage = 4
 
   Artist.find().sort('name').paginate(page, itemsPerPage, (err, artists, total)=>{
     if(err){
@@ -125,7 +125,7 @@ function deleteArtist( req, res){
 function uploadImage(req, res){
   let artistId = req.params.id
   let file_name = 'No upload...'
-  
+
   if(req.files){
     let file_path = req.files.image.path
     let file_split = file_path.split('\/');
