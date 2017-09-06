@@ -25,7 +25,7 @@ function getAlbum(req, res){
 }
 
 function getAlbums(req, res){
-  let artistId = req.params.artists
+  let artistId = req.params.artist
   let find = null
 
   if (!artistId) {
