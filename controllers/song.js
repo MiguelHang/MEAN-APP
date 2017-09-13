@@ -25,7 +25,8 @@ function getSong(req, res){
 }
 
 function getSongs(req, res){
-  let albumId = req.params.albumId
+
+  let albumId = req.params.album
   let find = null
 
   if(!albumId){
@@ -137,8 +138,8 @@ function uploadFile(req, res){
 }
 
 function getSongFile(req, res){
-  let songFile = req.params.imageFile
-  let path_file = './uploads/songs/'+imageFile
+  let songFile = req.params.songFile
+  let path_file = './uploads/songs/'+songFile
 
   fs.exists(path_file, (exist) => {
     if(exist){
