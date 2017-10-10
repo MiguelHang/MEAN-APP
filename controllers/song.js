@@ -24,6 +24,29 @@ function getSong(req, res){
   })
 }
 
+function getNextSong(req, res){
+  let albumId = req.params.album
+  let songNumber = req.params.number
+
+  Song.find({album: albumId, number: { $ne: songNumber} }).populate({
+    path: 'album',
+    populate: {
+      path: 'artist',
+      model: 'Artist'
+    }
+  }).exec( (err, song) => {
+    if(err){
+      res.status(500).send({message: 'Error request'})
+    }else{
+      if(!song){
+        res.status(404).send({message: 'Album not exist'})
+      }else{
+        res.status(200).send({song})
+      }
+    }
+  })
+}
+
 function getSongs(req, res){
 
   let albumId = req.params.album
@@ -157,5 +180,6 @@ module.exports = {
   updateSong,
   deleteSong,
   uploadFile,
-  getSongFile
+  getSongFile,
+  getNextSong
 }
