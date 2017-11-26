@@ -7,7 +7,8 @@ let SongSchema = Schema({
   name: String,
   duration: String,
   file: String,
-  album: {type: Schema.ObjectId, ref: 'Album'}
+  album: {type: Schema.ObjectId, ref: 'Album'},
+  playlist:[{type: Schema.ObjectId, ref: 'Playlist'}]
 })
 
 module.exports = mongoose.model('Song', SongSchema)
