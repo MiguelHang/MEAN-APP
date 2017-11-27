@@ -53,7 +53,6 @@ function savePlaylist(req, res){
   let params = req.body
   playlist.name = params.name
   playlist.user = params.user
-
   playlist.save( (err, playlistStored) => {
     if(err){
       res.status(500).send({message: 'Server error'})
@@ -95,17 +94,18 @@ function deletePlaylist(req, res){
       if(!playlistRemoved){
         res.status(404).send({message: 'playlist not removed'})
       }else{
-        Song.findAndUpdate({pull: {playlist: playlistRemoved._id}}, (err, songRemoved) => {
-          if(err){
-            res.status(500).send({message: 'Error song'})
-          }else{
-            if(!songRemoved){
-              res.status(404).send({message: 'song not removed'})
-            }else{
-              res.status(200).send({album: playlistRemoved})
-            }
-          }
-        })
+        res.status(200).send({playlistRemoved: playlistRemoved})
+        // Song.playlist.findByIdAndRemove({_id: playlistRemoved._id}, (err, songRemoved) => {
+        //   if(err){
+        //     res.status(500).send({message: 'Error song'})
+        //   }else{
+        //     if(!songRemoved){
+        //       res.status(404).send({message: 'song not removed'})
+        //     }else{
+        //       res.status(200).send({songRemoved: songRemoved})
+        //     }
+        //   }
+        // })
       }
     }
   })
