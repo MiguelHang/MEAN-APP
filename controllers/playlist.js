@@ -10,9 +10,9 @@ let Song = require('../models/song')
 let Playlist = require('../models/playlist')
 
 function getPlaylist(req, res){
-  let playlistId = req.params.id
+  let userPlaylistId = req.params.id
 
-  Playlist.findById(playlistId).populate({path: 'user'}).exec( (err, playlist) => {
+  Playlist.findOne({user: userPlaylistId}).populate({path: 'user'}).exec( (err, playlist) => {
     if(err){
       res.status(500).send({message: 'Error request'})
     }else{

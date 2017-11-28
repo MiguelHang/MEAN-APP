@@ -77,6 +77,36 @@ function getSongs(req, res){
   })
 }
 
+function getSongsPlaylist(req, res){
+
+  let playlistUserId = req.params.playlist
+  let find = null
+
+  if(!playlistUserId){
+    find = Song.find({}).sort('number')
+  }else{
+    find = Song.find({playlist: playlistUserId}).sort('number')
+  }
+
+  find.populate({
+    path: 'album',
+    populate: {
+      path: 'artist',
+      model: 'Artist'
+    }
+  }).exec( (err, songs) =>{
+    if(err){
+      res.status(500).send({message: 'server error '+err})
+    }else{
+      if(!songs){
+        res.status(404).send({message: 'not songs'})
+      }else{
+        res.status(200).send({songs})
+      }
+    }
+  })
+}
+
 function saveSong(req,res){
   let song = new Song()
 
@@ -181,5 +211,6 @@ module.exports = {
   deleteSong,
   uploadFile,
   getSongFile,
-  getNextSong
+  getNextSong,
+  getSongsPlaylist
 }

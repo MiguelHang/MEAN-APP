@@ -11,6 +11,7 @@ let md_upload = multipart({uploadDir: './uploads/songs'})
 
 api.get('/song/:id', md_auth.ensureAuth, SongController.getSong)
 api.get('/songs/:album?', md_auth.ensureAuth, SongController.getSongs)
+api.get('/playlist-songs/:playlist?', md_auth.ensureAuth, SongController.getSongsPlaylist)
 api.get('/get-song-file/:songFile', SongController.getSongFile)
 api.get('/nextsong/:album/:number', md_auth.ensureAuth, SongController.getNextSong)
 api.get('/searchsongs/:songText', md_auth.ensureAuth, Searchsongs.getSongs)
