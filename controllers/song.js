@@ -133,7 +133,6 @@ function saveSong(req,res){
 function updateSong(req,res){
   let songId = req.params.id
   let update = req.body
-
   Song.findByIdAndUpdate(songId, update, (err, songUpdated) => {
     if (err) {
       res.status(500).send({message: 'server error'})
@@ -141,7 +140,7 @@ function updateSong(req,res){
       if(!songUpdated){
         res.status(404).send({message: 'song not updated'})
       }else{
-        res.status(200).send({song: songUpdated})
+        res.status(200).send({song: update})
       }
     }
   })
