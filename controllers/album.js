@@ -3,10 +3,18 @@
 let path = require('path')
 let fs = require('fs')
 let mongoosePaginate = require('mongoose-pagination')
+let Twit = require('twit')
 
 let Artist = require('../models/artist')
 let Album = require('../models/album')
 let Song = require('../models/song')
+
+var T = new Twit({
+  consumer_key:         'PIXJVmTtpYVkAfl3Y63CcLKSa',
+  consumer_secret:      'jNPafgGQ9FwR0jFT0BxRFnEs6bQSngpne41uoCYnsJOqBbGkgE',
+  access_token:         '936650007104708608-zRdxBhUSKF4TWyf0EtzxNVAhsygOGAu',
+  access_token_secret:  'tp9U8MfH3ZQe8GkDsHGIwC96kJAQTlOnFrm9KVi6wBgLi'
+})
 
 function getAlbum(req, res){
   let albumId = req.params.id
@@ -66,6 +74,12 @@ function saveAlbum(req, res){
           res.status(200).send({album: albumStored})
       }
     }
+  })
+
+  T.post('statuses/update',
+    { status: 'Nuevo album '+album.title +'! Escúchalo ya en http://soundclub.com/' },
+     (err, data, response) => {
+      console.log(data)
   })
 }
 

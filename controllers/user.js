@@ -22,30 +22,40 @@ function saveUser(req, res){
   user.role = 'ROLE_USER'
   user.image = 'null'
 
-  if(params.password){
-    //encrypt password
-    bcrypt.hash(params.password, null, null, (err, hash) => {
-      user.password = hash
-
-      if(user.name != null && user.surname != null && user.email != null){
-        user.save( (err, userStored) => {
-          if (err) {
-              res.status(500).send({message: 'error to save user'})
-          }else{
-            if(!userStored){
-                res.status(404).send({message: 'user not saved'})
-            }else {
-                res.status(200).send({user: userStored})
-            }
-          }
-        })
+  User.find({email: user.email}, (err, comp) => {
+    if(err){
+      res.status(500).send({message: 'Server error'})
+    }else{
+      if(comp.length > 0){
+        res.status(500).send({message: 'Email already used'})
       }else{
-          res.status(500).send({message: 'required all user data'})
+        if(params.password){
+          //encrypt password
+          bcrypt.hash(params.password, null, null, (err, hash) => {
+            user.password = hash
+
+            if(user.name != null && user.surname != null && user.email != null){
+              user.save( (err, userStored) => {
+                if (err) {
+                    res.status(500).send({message: 'error to save user'})
+                }else{
+                  if(!userStored){
+                      res.status(404).send({message: 'user not saved'})
+                  }else {
+                      res.status(200).send({user: userStored})
+                  }
+                }
+              })
+            }else{
+                res.status(500).send({message: 'required all user data'})
+            }
+          })
+        }else{
+          res.status(500).send({message: 'required password'})
+        }
       }
-    })
-  }else{
-    res.status(500).send({message: 'required password'})
-  }
+    }
+  })
 }
 
 function loginUser(req, res){
