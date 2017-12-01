@@ -7,6 +7,8 @@ let SongSchema = Schema({
   name: String,
   duration: String,
   file: String,
+  votes: {type:Number, default:0},
+  points: {type:Number, default:0},
   album: {type: Schema.ObjectId, ref: 'Album'},
   playlist:[{type: Schema.ObjectId, ref: 'Playlist'}]
 })
