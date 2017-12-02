@@ -79,7 +79,7 @@ function saveAlbum(req, res){
   T.post('statuses/update',
     { status: 'Nuevo album '+album.title +'! Escúchalo ya en http://soundclub.com/' },
      (err, data, response) => {
-      console.log(data)
+      console.log('album '+ album.title +' tweeted')
   })
 }
 
