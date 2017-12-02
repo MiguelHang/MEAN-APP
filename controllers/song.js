@@ -28,7 +28,7 @@ function getNextSong(req, res){
   let albumId = req.params.album
   let songNumber = req.params.number
 
-  Song.find({album: albumId, number: { $ne: songNumber} }).populate({
+  Song.find({album: albumId, number: songNumber}).populate({
     path: 'album',
     populate: {
       path: 'artist',
