@@ -95,9 +95,9 @@ function updateUser(req, res){
   let userId = req.params.id
   let update = req.body
 
-  if (userId != req.user.sub ) {
-    return res.status(500).send({message: 'not same user'})
-  }
+  // if (userId != req.user.sub ) {
+  //   return res.status(500).send({message: 'not same user'})
+  // }
 
   User.findByIdAndUpdate(userId, update, (err, userUpdate) =>{
     if(err){
@@ -153,11 +153,37 @@ function getImageFile(req, res){
   })
 }
 
+function getUsers(req, res){
+  let userText = req.params.userText
+  let find = null
+  if(!userText){
+
+  }else{
+    User.find({name: {'$regex' : userText, '$options' : 'i'}})
+  }
+
+  User.find({}, (err, users, total)=>{
+    if(err){
+      res.status(500).send({message: 'Error albuns'})
+    }else{
+      if(!users){
+        res.status(404).send({message: 'Not users'})
+      }else{
+        return res.status(200).send({
+          totalItems: total,
+          users: users
+        })
+      }
+    }
+  })
+}
+
 module.exports = {
   pruebas,
   saveUser,
   loginUser,
   updateUser,
   uploadImage,
-  getImageFile
+  getImageFile,
+  getUsers
 }
